@@ -1,8 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const debug = require("debug")("series:server");
+const debug = require("debug")("socialNetwork:server");
 const chalk = require("chalk");
+
+const {
+  notFoundErrorHandler,
+  generalErrorHandler,
+} = require("../middleware/error");
 
 const app = express();
 app.use(cors());
@@ -31,5 +36,8 @@ const initializeServer = (port) =>
       debug(chalk.yellow("Server express disconnected"));
     });
   });
+
+app.use(notFoundErrorHandler);
+app.use(generalErrorHandler);
 
 module.exports = { initializeServer, app };
