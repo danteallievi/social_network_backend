@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const chalk = require("chalk");
 const { ValidationError } = require("express-validation");
 const debug = require("debug")("socialNetwork:error");
