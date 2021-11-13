@@ -5,6 +5,7 @@ const debug = require("debug")("socialNetwork:server");
 const chalk = require("chalk");
 
 const registerRoutes = require("./routes/registerRoutes");
+const socialRoutes = require("./routes/socialRoutes");
 
 const {
   notFoundErrorHandler,
@@ -40,6 +41,7 @@ const initializeServer = (port) =>
   });
 
 app.use("/user", registerRoutes);
+app.use("/social", socialRoutes);
 
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
