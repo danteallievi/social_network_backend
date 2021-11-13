@@ -49,4 +49,55 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, editUser, deleteUser };
+const addFriend = async (req, res, next) => {
+  const friend = req.body;
+  const { id: myUserId } = req.userData;
+
+  try {
+    const myUser = await User.findById(myUserId);
+    const friendToAdd = await User.findById(friend.id);
+
+    if (!friendToAdd) {
+      const error = new Error("Could not find the friend to add.");
+      error.code = 404;
+      next(error);
+    } else {
+      myUser.friends = [...myUser.friends, friendToAdd.id];
+      await myUser.save(myUser);
+
+      res.status(201).json({
+        status: "success",
+        user: friendToAdd.id,
+      });
+    }
+  } catch {
+    const error = new Error("Could not add friend.");
+    error.code = 500;
+    next(error);
+  }
+};
+
+const getFriends = async (req, res, next) => {
+  const { id: myUserId } = req.userData;
+
+  try {
+    const user = await User.findById(myUserId).populate({
+      path: "friends",
+      select: "name",
+    });
+
+    if (!user) {
+      const error = new Error("User not found.");
+      error.code = 404;
+      next(error);
+    } else {
+      res.json(user);
+    }
+  } catch (error) {
+    error.code = 400;
+    error.message = "General pete getFriends";
+    next(error);
+  }
+};
+
+module.exports = { getUsers, editUser, deleteUser, getFriends, addFriend };
