@@ -22,9 +22,8 @@ const initializeServer = (port) =>
   new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
       debug(
-        chalk.green(`
-      Listening ${port} port
-      http://localhost:${port}`)
+        chalk.green(`Listening ${port} port
+http://localhost:${port}`)
       );
       resolve(server);
     });
