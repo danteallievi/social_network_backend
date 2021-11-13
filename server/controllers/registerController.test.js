@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { createUser, loginUser } = require("./userController");
+const { createUser, loginUser } = require("./registerController");
 const User = require("../../DB/models/user");
 
 jest.mock("../../DB/models/user");

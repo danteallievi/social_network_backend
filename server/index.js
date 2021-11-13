@@ -4,7 +4,7 @@ const cors = require("cors");
 const debug = require("debug")("socialNetwork:server");
 const chalk = require("chalk");
 
-const userRoutes = require("./routes/userRoutes");
+const registerRoutes = require("./routes/registerRoutes");
 
 const {
   notFoundErrorHandler,
@@ -39,7 +39,7 @@ const initializeServer = (port) =>
     });
   });
 
-app.use("/user", userRoutes);
+app.use("/user", registerRoutes);
 
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
