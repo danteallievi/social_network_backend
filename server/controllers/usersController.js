@@ -31,4 +31,22 @@ const editUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, editUser };
+const deleteUser = async (req, res, next) => {
+  const { id } = req.userData;
+  try {
+    const user = await User.findByIdAndDelete(id);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      const error = new Error("User to delete not found");
+      error.code = 404;
+      next(error);
+    }
+  } catch {
+    const error = new Error("Error deleting the user");
+    error.code = 500;
+    next(error);
+  }
+};
+
+module.exports = { getUsers, editUser, deleteUser };
