@@ -4,7 +4,7 @@ const { validate } = require("express-validation");
 const {
   userRegisterSchema,
   userLoginSchema,
-} = require("../schemas/userSchema");
+} = require("../schemas/registerSchema");
 const { createUser, loginUser } = require("../controllers/registerController");
 
 const router = express.Router();
