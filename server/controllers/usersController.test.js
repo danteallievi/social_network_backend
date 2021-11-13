@@ -42,6 +42,14 @@ describe("Given the getUsers function", () => {
 });
 
 describe("Given the editUser function", () => {
+  let req;
+  beforeEach(() => {
+    req = {
+      userData: {
+        id: 1,
+      },
+    };
+  });
   describe("When it receives the res and req objects", () => {
     test("Then it should call the method json with status 200", async () => {
       const res = mockResponse();
@@ -51,11 +59,6 @@ describe("Given the editUser function", () => {
         age: 20,
         password: "test",
         image: "test",
-      };
-      const req = {
-        userData: {
-          id: 1,
-        },
       };
       const expectedStatus = 200;
 
@@ -69,11 +72,6 @@ describe("Given the editUser function", () => {
 
   describe("When it receives the req object with a wrong user", () => {
     test("Then it should call the next function with expected error and status 404", async () => {
-      const req = {
-        userData: {
-          id: 1,
-        },
-      };
       const next = jest.fn();
       const expectedError = new Error("User not found");
       const expectedStatus = 404;
@@ -88,11 +86,6 @@ describe("Given the editUser function", () => {
 
   describe("When it receives the req object with a rejected promise", () => {
     test("Then it should call the next function", async () => {
-      const req = {
-        userData: {
-          id: 1,
-        },
-      };
       const next = jest.fn();
       const expectedError = new Error("Error editing the user");
       const expectedStatus = 500;
