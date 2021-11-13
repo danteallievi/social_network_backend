@@ -57,3 +57,86 @@ describe("Given the createUser function", () => {
     });
   });
 });
+
+describe("Given the loginUser function", () => {
+  describe("When it receives the req object and the promise rejects", () => {
+    test("Then it should invoke the next function with a error", async () => {
+      const req = {
+        body: {
+          username: "test",
+          password: "test",
+        },
+      };
+
+      const next = jest.fn();
+      const error = new Error("Error logging in the user");
+
+      User.findOne = jest.fn().mockRejectedValue(null);
+      await loginUser(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+
+  describe("When it receives the req object, the next function and promise resolves null", () => {
+    test("Then it should invoke the next function with a error", async () => {
+      const req = {
+        body: {
+          username: "test",
+          password: "test",
+        },
+      };
+
+      const next = jest.fn();
+      const error = new Error("Wrong credentials");
+
+      User.findOne = jest.fn().mockResolvedValue(null);
+      await loginUser(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+
+  describe("When it receives the req object, the next function and promise resolves, but the password is wrong", () => {
+    test("Then it should invoke the next function with a error", async () => {
+      const req = {
+        body: {
+          username: "test",
+          password: "test",
+        },
+      };
+
+      const next = jest.fn();
+      const error = new Error("Wrong credentials");
+
+      bcrypt.compare = jest.fn().mockResolvedValue(false);
+      User.findOne = jest.fn().mockResolvedValue(req.body);
+      await loginUser(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+
+  describe("When it receives the req object, the next function and promise resolves with all the credentials good", () => {
+    test("Then it should invoke the json method with", async () => {
+      const req = {
+        body: {
+          id: 1,
+          username: "test",
+          password: "test",
+        },
+      };
+
+      const res = mockResponse();
+
+      const expectedToken = 123;
+
+      bcrypt.compare = jest.fn().mockResolvedValue(true);
+      jwt.sign = jest.fn().mockReturnValue(expectedToken);
+      User.findOne = jest.fn().mockResolvedValue(req.body);
+      await loginUser(req, res, () => {});
+
+      expect(res.json).toHaveBeenCalledWith({ token: expectedToken });
+    });
+  });
+});
