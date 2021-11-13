@@ -18,13 +18,14 @@ const editUser = async (req, res, next) => {
       runValidators: true,
     });
     if (user) {
-      res.json(user);
+      res.status(200).json(user);
     } else {
       const error = new Error("User not found");
       error.code = 404;
       next(error);
     }
-  } catch (error) {
+  } catch {
+    const error = new Error("Error editing the user");
     error.code = 500;
     next(error);
   }
