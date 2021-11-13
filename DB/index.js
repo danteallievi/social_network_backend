@@ -26,7 +26,7 @@ const initializeDB = (stringDB) =>
     });
 
     mongoose.connection.on("close", () => {
-      debug(chalk.green("DB disconnected"));
+      debug(chalk.yellow("DB disconnected"));
     });
   });
 
