@@ -5,6 +5,7 @@ const debug = require("debug")("socialNetwork:server");
 const chalk = require("chalk");
 
 const registerRoutes = require("./routes/registerRoutes");
+const socialRoutes = require("./routes/socialRoutes");
 
 const {
   notFoundErrorHandler,
@@ -21,9 +22,8 @@ const initializeServer = (port) =>
   new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
       debug(
-        chalk.green(`
-      Listening ${port} port
-      http://localhost:${port}`)
+        chalk.green(`Listening ${port} port
+http://localhost:${port}`)
       );
       resolve(server);
     });
@@ -40,6 +40,7 @@ const initializeServer = (port) =>
   });
 
 app.use("/user", registerRoutes);
+app.use("/social", socialRoutes);
 
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
