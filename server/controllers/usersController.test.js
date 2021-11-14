@@ -10,6 +10,15 @@ const mockResponse = () => {
   return res;
 };
 
+let req;
+beforeEach(() => {
+  req = {
+    userData: {
+      id: 1,
+    },
+  };
+});
+
 describe("Given the getUsers function", () => {
   describe("When it receives a res object", () => {
     test("Then it should call the method json with status 200", async () => {
@@ -42,14 +51,6 @@ describe("Given the getUsers function", () => {
 });
 
 describe("Given the editUser function", () => {
-  let req;
-  beforeEach(() => {
-    req = {
-      userData: {
-        id: 1,
-      },
-    };
-  });
   describe("When it receives the res and req objects", () => {
     test("Then it should call the method json with status 200", async () => {
       const res = mockResponse();
@@ -100,14 +101,6 @@ describe("Given the editUser function", () => {
 });
 
 describe("Given the deleteUser function", () => {
-  let req;
-  beforeEach(() => {
-    req = {
-      userData: {
-        id: 1,
-      },
-    };
-  });
   describe("When it receives the res and req objects", () => {
     test("Then it should call the method json with status 200", async () => {
       const res = mockResponse();
