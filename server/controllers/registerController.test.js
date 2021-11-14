@@ -29,7 +29,7 @@ describe("Given the createUser function", () => {
 
       const expectedStatus = 201;
       User.create = jest.fn().mockResolvedValue(req.body);
-      await createUser(req, res, () => {});
+      await createUser(req, res);
 
       expect(res.json).toHaveBeenCalledWith(req.body);
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
@@ -134,7 +134,7 @@ describe("Given the loginUser function", () => {
       bcrypt.compare = jest.fn().mockResolvedValue(true);
       jwt.sign = jest.fn().mockReturnValue(expectedToken);
       User.findOne = jest.fn().mockResolvedValue(req.body);
-      await loginUser(req, res, () => {});
+      await loginUser(req, res);
 
       expect(res.json).toHaveBeenCalledWith({ token: expectedToken });
     });
