@@ -3,4 +3,4 @@ node_modules
 coverage
 sonar-project.properties
 sonnar.properties
-
+*scanner*
