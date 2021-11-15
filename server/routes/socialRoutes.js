@@ -17,6 +17,6 @@ router.get("/", checkAuthorization, getUsers);
 router.get("/friends", checkAuthorization, getFriends);
 router.put("/", checkAuthorization, validate(socialEditUser), editUser);
 router.delete("/", checkAuthorization, deleteUser);
-router.post("/friends", checkAuthorization, addFriend);
+router.post("/friends/:id", checkAuthorization, addFriend);
 
 module.exports = router;

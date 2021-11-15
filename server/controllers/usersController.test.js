@@ -24,13 +24,13 @@ describe("Given the getUsers function", () => {
     test("Then it should call the method json with status 200", async () => {
       const res = mockResponse();
       const expectedReturn = [
-        { id: 1, name: "test" },
-        { id: 2, name: "test2" },
+        { id: 2, name: "test" },
+        { id: 3, name: "test2" },
       ];
       const expectedStatus = 200;
 
       User.find = jest.fn().mockResolvedValue(expectedReturn);
-      await getUsers(null, res);
+      await getUsers(req, res);
 
       expect(res.json).toHaveBeenCalledWith(expectedReturn);
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
@@ -43,7 +43,7 @@ describe("Given the getUsers function", () => {
       const error = new Error("Error loading the users");
 
       User.find = jest.fn().mockRejectedValue();
-      await getUsers(null, null, next);
+      await getUsers(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
     });
