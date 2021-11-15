@@ -1,8 +1,9 @@
 const User = require("../../DB/models/user");
 
 const getUsers = async (req, res, next) => {
+  const { id } = req.userData;
   try {
-    const newUser = await User.find();
+    const newUser = await User.find({ _id: { $ne: id } });
     res.status(200).json(newUser);
   } catch {
     const error = new Error("Error loading the users");
