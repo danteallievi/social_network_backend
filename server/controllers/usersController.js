@@ -2,6 +2,7 @@ const User = require("../../DB/models/user");
 
 const getUsers = async (req, res, next) => {
   const { id } = req.userData;
+
   try {
     const newUser = await User.find({ _id: { $ne: id } });
     res.status(200).json(newUser);
@@ -51,12 +52,12 @@ const deleteUser = async (req, res, next) => {
 };
 
 const addFriend = async (req, res, next) => {
-  const friend = req.body;
+  const { id: friendId } = req.params;
   const { id: myUserId } = req.userData;
 
   try {
     const myUser = await User.findById(myUserId);
-    const friendToAdd = await User.findById(friend.id);
+    const friendToAdd = await User.findById(friendId);
 
     if (!friendToAdd) {
       const error = new Error("Could not find the friend to add.");
@@ -66,7 +67,7 @@ const addFriend = async (req, res, next) => {
       myUser.friends = [...myUser.friends, friendToAdd.id];
       await myUser.save(myUser);
 
-      res.status(201).json({
+      res.status(200).json({
         status: "success",
         user: friendToAdd.id,
       });
